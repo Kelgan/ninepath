@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Takeo Masamune — Nine Path Build (Nine Spear + Nine Sword)</title>
+
+  <!-- Google Fonts: Noto Sans JP (titres) + Inter (texte) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN for quick design -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      --accent: #1a73e8;
+      --accent-2: #b30000;
+      --muted: #6b7280;
+      --glass: rgba(255,255,255,0.6);
+    }
+
+    body{
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(250,230,230,0.08), transparent 10%),
+                  radial-gradient(900px 500px at 90% 90%, rgba(220,235,255,0.06), transparent 10%),
+                  linear-gradient(180deg, #0f1724 0%, #071022 100%);
+      color: #e6eef8;
+      min-height: 100vh;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Subtle animated overlay (fire + wind feel) */
+    .bg-anim {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(27,38,59,0.08) 0%, rgba(14,22,34,0.06) 50%, rgba(27,38,59,0.08) 100%),
+        radial-gradient(800px 300px at 15% 10%, rgba(179,0,0,0.05), transparent 20%),
+        radial-gradient(700px 300px at 85% 85%, rgba(26,115,232,0.04), transparent 20%);
+      animation: slowDrift 12s linear infinite;
+      filter: blur(8px) saturate(120%);
+    }
+    @keyframes slowDrift {
+      0%{ transform: translateY(0) rotate(0deg); opacity: .95;}
+      50%{ transform: translateY(-12px) rotate(1deg); opacity: 1;}
+      100%{ transform: translateY(0) rotate(0deg); opacity: .95;}
+    }
+
+    /* Card look */
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.04);
+      backdrop-filter: blur(6px) saturate(140%);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      border-radius: 14px;
+    }
+
+    h1, h2 {
+      font-family: 'Noto Sans JP', 'Inter', sans-serif;
+      color: #fff;
+      letter-spacing: 0.4px;
+    }
+
+    .title-accent {
+      color: var(--accent-2);
+      text-shadow: 0 6px 18px rgba(179,0,0,0.15);
+    }
+
+    /* subtle highlight for active preview */
+    .active-badge {
+      box-shadow: 0 8px 24px rgba(26,115,232,0.12);
+      transform: translateY(-4px);
+      transition: transform .28s ease, box-shadow .28s ease;
+    }
+
+    /* lore typographic style */
+    .lore {
+      color: #dbeafe;
+      font-size: .975rem;
+      line-height: 1.6;
+    }
+
+    /* small UI helpers */
+    .glass-btn {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.04);
+      padding: .45rem .8rem;
+      border-radius: 8px;
+    }
+
+    /* responsive tweaks */
+    @media (max-width: 1024px){
+      .hide-lg { display: none; }
+    }
+
+    /* simple focus styles for accessibility */
+    button:focus, input:focus, select:focus {
+      outline: 3px solid rgba(26,115,232,0.18);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- animated overlay -->
+  <div class="bg-anim" aria-hidden="true"></div>
+
+  <div class="max-w-7xl mx-auto px-6 py-10 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+      <!-- SIDEBAR -->
+      <aside class="lg:col-span-1">
+        <div class="card p-5">
+          <div class="flex items-center gap-3">
+            <div class="w-14 h-14 rounded-lg bg-gradient-to-br from-red-600 to-orange-400 flex items-center justify-center">
+              <!-- stylized crest icon -->
+              <svg viewBox="0 0 24 24" class="w-8 h-8 text-white">
+                <path d="M12 2c2.2 0 4 1.8 4 4v2l4 2-4 2v2c0 2.2-1.8 4-4 4s-4-1.8-4-4v-2L4 10l4-2V6c0-2.2 1.8-4 4-4z" fill="currentColor"/>
+              </svg>
+            </div>
+            <div>
+              <h1 class="text-xl font-bold">Takeo Masamune</h1>
+              <p class="text-sm text-slate-300">Maître du <span class="text-amber-300 font-semibold">Nine Path</span> — Lance & Lame</p>
+            </div>
+          </div>
+
+          <div class="mt-5 text-sm text-slate-300">
+            <p><strong>Build :</strong> Force / Dextérité — technique et mobilité.</p>
+            <p class="mt-2"><strong>Armes :</strong> Nine Spear • Nine Sword</p>
+          </div>
+
+          <nav class="mt-6 flex flex-col gap-2" aria-label="Navigation du guide">
+            <button class="nav-btn text-sm text-left glass-btn" data-target="panel-overview">Aperçu</button>
+            <button class="nav-btn text-sm text-left glass-btn" data-target="panel-stats">Stats & Ratio</button>
+            <button class="nav-btn text-sm text-left glass-btn" data-target="panel-skills">Compétences</button>
+            <button class="nav-btn text-sm text-left glass-btn" data-target="panel-lore">Lore & Philosophie</button>
+            <button class="nav-btn text-sm text-left glass-btn" data-target="panel-interact">Interactif</button>
+          </nav>
+
+          <div class="mt-6 pt-4 border-t border-white/6 text-xs text-slate-300">
+            <div class="flex items-center justify-between">
+              <div>Version</div>
+              <div class="font-medium">v1.2</div>
+            </div>
+            <div class="mt-2 text-xs">Dernière mise à jour: 2025</div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="lg:col-span-3 space-y-6">
+
+        <!-- HEADER PANEL -->
+        <section id="panel-overview" class="card p-6">
+          <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div>
+              <h2 class="text-2xl font-bold">Nine Path Build — <span class="title-accent">Takeo Masamune</span></h2>
+              <p class="text-slate-300 mt-1">Un style fluide mêlant la portée et le contrôle de la lance à la rapidité et aux finitions chirurgicales de la lame.</p>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <div id="previewCard" class="p-3 rounded-lg glass-btn flex items-center gap-3">
+                <div id="weaponIcon" class="w-10 h-10 rounded-md bg-white/6 flex items-center justify-center">
+                  <!-- initial icon: spear -->
+                  <svg id="ic-spear" viewBox="0 0 24 24" class="w-6 h-6 text-white"><path d="M3 21l18-18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div>
+                  <div id="previewTitle" class="text-sm font-semibold">Nine Spear</div>
+                  <div id="previewSubtitle" class="text-xs text-slate-300">Lance Spirituelle — Engagement & Contrôle</div>
+                </div>
+              </div>
+
+              <button id="swapPreview" class="px-3 py-2 bg-amber-400 text-black rounded-md text-sm font-medium shadow-sm hover:brightness-95">Swap preview</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- STATS & INTERACTIVE -->
+        <section id="panel-stats" class="card p-6">
+          <div class="flex flex-col md:flex-row gap-6">
+            <div class="flex-1">
+              <h3 class="text-lg font-semibold">Statistiques & Ratio</h3>
+              <p class="text-xs text-slate-300 mt-1">Ajuste les curseurs pour simuler la répartition Force / Dextérité / Endurance.</p>
+
+              <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 bg-white/3 rounded-md">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-sm font-medium">Force</div>
+                      <div class="text-xs text-slate-300">Puissance physique</div>
+                    </div>
+                    <div id="valStr" class="text-sm font-semibold">50%</div>
+                  </div>
+                  <input id="rangeStr" type="range" min="0" max="100" value="50" class="mt-3 w-full" aria-label="Force"/>
+                </div>
+
+                <div class="p-4 bg-white/3 rounded-md">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-sm font-medium">Dextérité</div>
+                      <div class="text-xs text-slate-300">Vitesse & précision</div>
+                    </div>
+                    <div id="valDex" class="text-sm font-semibold">35%</div>
+                  </div>
+                  <input id="rangeDex" type="range" min="0" max="100" value="35" class="mt-3 w-full" aria-label="Dextérité"/>
+                </div>
+
+                <div class="p-4 bg-white/3 rounded-md">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <div class="text-sm font-medium">Endurance</div>
+                      <div class="text-xs text-slate-300">Résilience</div>
+                    </div>
+                    <div id="valEnd" class="text-sm font-semibold">15%</div>
+                  </div>
+                  <input id="rangeEnd" type="range" min="0" max="100" value="15" class="mt-3 w-full" aria-label="Endurance"/>
+                </div>
+              </div>
+
+              <div class="mt-4 text-xs text-slate-300">Total : <span id="totalPerc" class="font-medium">100%</span></div>
+              <div id="statWarn" class="mt-2 text-rose-300 text-sm hidden">Les valeurs doivent totaliser 100%.</div>
+
+              <div class="mt-4 text-sm text-slate-300">
+                <strong>Conseil :</strong> Vise une relation ≈ 1:1 Force:Dextérité pour activer au mieux les effets de swap de Takeo.
+              </div>
+            </div>
+
+            <!-- quick interact / selector -->
+            <aside class="w-full md:w-80">
+              <div class="p-4 bg-white/3 rounded-md">
+                <div class="text-sm text-slate-300">Sélecteur d’arme</div>
+                <select id="selectWeapon" class="mt-2 w-full p-2 rounded-md bg-transparent border border-white/6 text-slate-100">
+                  <option value="spear" selected>Nine Spear — Lance Spirituelle</option>
+                  <option value="sword">Nine Sword — Lame Céleste</option>
+                </select>
+
+                <div class="mt-4 text-sm text-slate-300">Focus mystique (élément)</div>
+                <select id="selectElement" class="mt-2 w-full p-2 rounded-md bg-transparent border border-white/6 text-slate-100">
+                  <option value="none" selected>Aucun — Équilibré</option>
+                  <option value="fire">Feu — Burst critique</option>
+                  <option value="wind">Vent — Vitesse & esquive</option>
+                  <option value="light">Lumière — PV/Survie</option>
+                </select>
+
+                <div class="mt-4">
+                  <div class="text-xs text-slate-300">Aperçu build</div>
+                  <div id="buildPreview" class="mt-2 text-sm font-medium text-white">Nine Spear • Équilibré • Force 50 / Dex 35 / End 15</div>
+                </div>
+
+                <button id="applyBtn" class="mt-4 w-full py-2 rounded-md bg-amber-400 text-slate-900 font-semibold hover:brightness-95">Appliquer au profil</button>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- SKILLS PANEL -->
+        <section id="panel-skills" class="card p-6 hidden">
+          <h3 class="text-lg font-semibold">Compétences Clés — Nine Flow</h3>
+          <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-300">
+            <div>
+              <h4 class="font-medium">Heaven Pierce (Nine Spear)</h4>
+              <p class="text-sm lore mt-1">Entrée foudroyante de Takeo, perce les gardes et applique Perforation : parfait pour ouvrir des fenêtres de dégâts.</p>
+
+              <h4 class="font-medium mt-4">Blade Mirage (Nine Sword)</h4>
+              <p class="text-sm lore mt-1">Combo rapide qui crée des images résiduelles : parfait pour enchaîner et sécuriser des finishers.</p>
+            </div>
+
+            <div>
+              <h4 class="font-medium">Celestial Resonance (Combo)</h4>
+              <p class="text-sm lore mt-1">Swap Lance → Lame : déclenche un buff critique pendant quelques secondes. Le cœur du style Nine Path.</p>
+
+              <h4 class="font-medium mt-4">Art Mystique — Sky Veil / Infernal Focus</h4>
+              <p class="text-sm lore mt-1">Choix entre mobilité (Sky Veil) ou burst offensif (Infernal Focus) selon la situation.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- LORE PANEL -->
+        <section id="panel-lore" class="card p-6 hidden">
+          <h3 class="text-lg font-semibold">Lore & Philosophie de Takeo Masamune</h3>
+          <div class="mt-3 lore">
+            <p>Takeo Masamune est né au creux des montagnes de Kage-no-Mori, élevé par des maîtres de la lance et du sabre. On raconte que, jeune, il observait la danse du vent et apprit à laisser sa lame suivre la trajectoire de son esprit. Sa voie, le <em>Nine Path</em>, n’est pas seulement une école martiale — c’est une pratique de la présence :</p>
+
+            <p class="mt-3">« La portée commande la distance ; la lame conclut la volonté. » — Takeo Masamune</p>
+
+            <p class="mt-3">Dans les batailles, Takeo privilégie le contrôle du tempo : il engage avec la portée de la <strong>Nine Spear</strong> pour dicter les mouvements adverses, puis tranche la brèche ouverte avec la finesse chirurgicale de la <strong>Nine Sword</strong>. Son art mystique n’est pas une explosion de puissance, mais un affûtage de l’esprit — des petites augmentations qui rendent chaque enchaînement plus décisif.</p>
+          </div>
+        </section>
+
+        <!-- INTERACT PANEL (placeholder for future calculator) -->
+        <section id="panel-interact" class="card p-6 hidden">
+          <h3 class="text-lg font-semibold">Interactif — Base (Préparée pour calculateur)</h3>
+          <p class="text-sm text-slate-300 mt-2">Ici seront ajoutés : calculateur de dégâts (TauxCrit %, Pénétration), simulation de rotation et export de build. Pour l'instant, tu peux tester le sélecteur d'arme et les sliders.</p>
+
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 bg-white/3 rounded-md">
+              <div class="text-sm text-slate-300">Export rapide</div>
+              <textarea id="exportArea" class="mt-2 w-full p-2 rounded-md bg-transparent border border-white/6 text-xs text-slate-100" rows="5" readonly>— aucun profil exporté —</textarea>
+              <button id="exportBtn" class="mt-3 px-3 py-2 bg-transparent border border-white/6 rounded-md text-sm">Générer export (JSON)</button>
+            </div>
+
+            <div class="p-4 bg-white/3 rounded-md">
+              <div class="text-sm text-slate-300">Notes rapides</div>
+              <textarea id="notes" class="mt-2 w-full p-2 rounded-md bg-transparent border border-white/6 text-xs text-slate-100" rows="5" placeholder="Notes sur le build..."></textarea>
+              <button id="saveNote" class="mt-3 px-3 py-2 bg-amber-400 text-slate-900 rounded-md text-sm">Sauvegarder note</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center text-xs text-slate-400">
+          © 2025 — Takeo Masamune • Nine Path Build — Prototype interactif
+        </footer>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Basic SPA nav
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+        document.querySelectorAll('main section.card, main section.card + section').forEach(sec => {}); // noop to keep linter happy
+        // hide all panels
+        ['panel-overview','panel-stats','panel-skills','panel-lore','panel-interact'].forEach(id => {
+          const el = document.getElementById(id);
+          if(el) el.classList.add('hidden');
+        });
+        const tgt = document.getElementById(target);
+        if(tgt) {
+          tgt.classList.remove('hidden');
+          tgt.scrollIntoView({behavior:'smooth', block:'center'});
+        }
+      });
+    });
+
+    // initial show
+    ['panel-skills','panel-lore','panel-interact'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.classList.add('hidden');
+    });
+
+    // Stats sliders logic (auto-correct to 100)
+    const rangeStr = document.getElementById('rangeStr');
+    const rangeDex = document.getElementById('rangeDex');
+    const rangeEnd = document.getElementById('rangeEnd');
+    const valStr = document.getElementById('valStr');
+    const valDex = document.getElementById('valDex');
+    const valEnd = document.getElementById('valEnd');
+    const totalPerc = document.getElementById('totalPerc');
+    const statWarn = document.getElementById('statWarn');
+
+    function updateStats(){
+      let s = parseInt(rangeStr.value), d = parseInt(rangeDex.value), e = parseInt(rangeEnd.value);
+      let total = s + d + e;
+      // if total != 100, show warning; provide soft auto-balance if >100: reduce other sliders proportionally
+      if(total > 100){
+        let overflow = total - 100;
+        // reduce from the largest of the other two sliders first (naive)
+        const arr = [{el:rangeStr, val:s},{el:rangeDex, val:d},{el:rangeEnd, val:e}].sort((a,b)=>b.val-a.val);
+        for(let item of arr){
+          if(overflow <= 0) break;
+          const canReduce = Math.max(0, item.val - 0); // don't go negative
+          const reduce = Math.min(canReduce, overflow);
+          item.el.value = item.val - reduce;
+          overflow -= reduce;
+        }
+        // recalc
+        s = parseInt(rangeStr.value); d = parseInt(rangeDex.value); e = parseInt(rangeEnd.value);
+        total = s + d + e;
+      }
+      valStr.textContent = s + '%';
+      valDex.textContent = d + '%';
+      valEnd.textContent = e + '%';
+      totalPerc.textContent = total + '%';
+      statWarn.classList.toggle('hidden', total === 100);
+      document.getElementById('buildPreview').textContent = `${document.getElementById('selectWeapon').selectedOptions[0].text.split(' — ')[0]} • ${document.getElementById('selectElement').selectedOptions[0].text} • Force ${s} / Dex ${d} / End ${e}`;
+    }
+
+    [rangeStr, rangeDex, rangeEnd].forEach(el => el.addEventListener('input', updateStats));
+    updateStats();
+
+    // Weapon & element selectors
+    const selectWeapon = document.getElementById('selectWeapon');
+    const selectElement = document.getElementById('selectElement');
+    const previewTitle = document.getElementById('previewTitle');
+    const previewSubtitle = document.getElementById('previewSubtitle');
+    const weaponIcon = document.getElementById('weaponIcon');
+    const icSpear = document.getElementById('ic-spear');
+
+    function updatePreview(){
+      const w = selectWeapon.value;
+      const elem = selectElement.value;
+      if(w === 'spear'){
+        previewTitle.textContent = 'Nine Spear';
+        previewSubtitle.textContent = 'Lance Spirituelle — Engagement & Contrôle';
+        weaponIcon.innerHTML = '<svg id="ic-spear" viewBox="0 0 24 24" class="w-6 h-6 text-white"><path d="M3 21l18-18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      } else {
+        previewTitle.textContent = 'Nine Sword';
+        previewSubtitle.textContent = 'Lame Céleste — Vitesse & Finish';
+        weaponIcon.innerHTML = '<svg id="ic-sword" viewBox="0 0 24 24" class="w-6 h-6 text-white"><path d="M3 21l18-18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      }
+
+      // element accent on preview subtitle
+      let elemText = selectElement.selectedOptions[0].text;
+      if(elem !== 'none') previewSubtitle.textContent += ' • ' + elemText;
+      // update build preview
+      updateStats();
+    }
+
+    selectWeapon.addEventListener('change', updatePreview);
+    selectElement.addEventListener('change', updatePreview);
+
+    // swap preview button (visual)
+    document.getElementById('swapPreview').addEventListener('click', () => {
+      const current = selectWeapon.value;
+      selectWeapon.value = current === 'spear' ? 'sword' : 'spear';
+      updatePreview();
+      // small visual emphasis
+      const c = document.getElementById('previewCard');
+      c.classList.add('active-badge');
+      setTimeout(()=> c.classList.remove('active-badge'), 700);
+    });
+
+    // apply profile (simple local preview apply)
+    document.getElementById('applyBtn').addEventListener('click', () => {
+      const s = parseInt(rangeStr.value), d = parseInt(rangeDex.value), e = parseInt(rangeEnd.value);
+      if(s + d + e !== 100){
+        alert('Les statistiques doivent totaliser 100%. Ajuste les curseurs.');
+        return;
+      }
+      const profile = {
+        character: 'Takeo Masamune',
+        weapon: selectWeapon.value,
+        element: selectElement.value,
+        stats: { strength: s, dexterity: d, endurance: e },
+        timestamp: new Date().toISOString()
+      };
+      localStorage.setItem('takeo_profile', JSON.stringify(profile));
+      alert('Profil appliqué et sauvegardé localement.');
+    });
+
+    // Export JSON
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const stored = localStorage.getItem('takeo_profile');
+      if(!stored){
+        document.getElementById('exportArea').value = JSON.stringify({ error: 'Aucun profil sauvegardé. Appliquez un profil avant d\'exporter.' }, null, 2);
+        return;
+      }
+      document.getElementById('exportArea').value = JSON.stringify(JSON.parse(stored), null, 2);
+    });
+
+    // Save note (local)
+    document.getElementById('saveNote').addEventListener('click', () => {
+      const notes = document.getElementById('notes').value || '';
+      localStorage.setItem('takeo_notes', notes);
+      alert('Note sauvegardée localement.');
+    });
+
+    // Load saved note on open
+    window.addEventListener('load', () => {
+      const notes = localStorage.getItem('takeo_notes');
+      if(notes) document.getElementById('notes').value = notes;
+      const stored = localStorage.getItem('takeo_profile');
+      if(stored){
+        // quick load to preview
+        const p = JSON.parse(stored);
+        selectWeapon.value = p.weapon || 'spear';
+        selectElement.value = p.element || 'none';
+        rangeStr.value = p.stats?.strength ?? rangeStr.value;
+        rangeDex.value = p.stats?.dexterity ?? rangeDex.value;
+        rangeEnd.value = p.stats?.endurance ?? rangeEnd.value;
+        updatePreview();
+        updateStats();
+      } else {
+        updatePreview();
+      }
+    });
+
+  </script>
+</body>
+</html>
