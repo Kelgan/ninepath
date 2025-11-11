@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Where Winds Meet: Le Portail Zénith des Builds (Méta Vérifiée) ⚡</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Fira+Mono:wght==400;700&display=swap" rel="stylesheet">
+    <style>
+        /* [START OF ZENITH CSS CODE] */
+        :root {
+            --font-main: 'Poppins', sans-serif;
+            --font-code: 'Fira Mono', monospace;
+            --color-bg-dark: #0A0A0A;
+            --color-card-bg: #1A1A1A;
+            --color-card-bg-subtle: #1F1F1F;
+            --color-text-main: #F0F0F0;
+            --color-text-subtle: #A0A0A0;
+            --color-gold-light: #B4965A;
+            --color-gold-dark: #8C7548;
+            --color-gold-hover: #D0B075;
+            --color-gold-glow: rgba(180, 150, 90, 0.2);
+            --color-role-tank: #6495ED;
+            --color-role-healer: #98FB98;
+            --color-role-sustained-dps: #FFD700;
+            --color-role-burst-dps: #DC143C;
+            --color-role-pvp: #C71585;
+            --spacing-xl: 60px;
+            --spacing-lg: 40px;
+            --spacing-md: 20px;
+            --spacing-sm: 10px;
+            
+            /* VARIABLES DU STYLE PANNEAU DE GARDE */
+            --color-panel-inner-glow: rgba(180,150,90,0.03); 
+            --color-panel-border: rgba(180,150,90,0.08); 
+            --color-panel-bg-start: rgba(255,255,255,0.02);
+            --color-panel-bg-end: rgba(255,255,255,0.01);
+            --radius-panel: 18px;
+        }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* Animation de la brillance du titre */
+        @keyframes shine{0%{left:-40%}50%{left:110%}100%{left:110%}}
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-main);
+            line-height: 1.7;
+            margin: 0;
+            padding: 60px 0 0 0; 
+            scroll-behavior: smooth;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: var(--spacing-lg) var(--spacing-md); }
+        header { text-align: center; padding: var(--spacing-lg) 0; border-bottom: 2px solid var(--color-gold-dark); margin-bottom: var(--spacing-lg); }
+        h1 { font-size: 2.8em; color: var(--color-gold-light); text-transform: uppercase; letter-spacing: 4px; margin-bottom: var(--spacing-sm); background: -webkit-linear-gradient(var(--color-gold-hover), var(--color-gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 2em; color: var(--color-gold-light); border-bottom: 1px solid var(--color-card-bg-subtle); padding-bottom: var(--spacing-sm); margin-top: var(--spacing-xl); margin-bottom: var(--spacing-md); }
+        h3 { font-size: 1.3em; color: var(--color-text-main); margin-top: var(--spacing-lg); margin-bottom: var(--spacing-sm); text-transform: uppercase; letter-spacing: 1px; padding-left: var(--spacing-sm); border-left: 3px solid var(--color-gold-light); display: flex; justify-content: space-between; align-items: center; }
+        
+        .scroll-reveal { opacity: 0; transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .scroll-reveal.visible { animation: fadeInUp 0.8s ease forwards; }
+
+        /* Styles des sections - Style Panneau Zenith */
+        .about-section, .build-detail-section { 
+            background: linear-gradient(180deg, var(--color-panel-bg-start), var(--color-panel-bg-end));
+            padding: var(--spacing-md) var(--spacing-lg); 
+            margin: var(--spacing-lg) 0; 
+            border-radius: var(--radius-panel); 
+            border: 1px solid var(--color-panel-border); 
+            box-shadow: 0 14px 40px rgba(0,0,0,0.7), inset 0 0 60px var(--color-panel-inner-glow); 
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.4s ease, height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
+        }
+        .about-section { text-align: center; }
+        .about-section:hover, .build-detail-section:hover {
+            transform: translateY(-3px) scale(1.005);
+            box-shadow: 0 16px 24px rgba(0, 0, 0, 0.7), inset 0 0 15px var(--color-gold-glow), 0 0 10px var(--color-gold-glow);
+        }
+        .build-detail-section.hidden { opacity: 0; transform: scale(0.95); height: 0; padding: 0 !important; margin: 0 !important; overflow: hidden; border: none; }
+        
+        /* Styles spécifiques par Rôle (Ombre interne colorée) */
+        #stonesplitmight { box-shadow: 0 14px 40px rgba(0,0,0,0.7), inset 0 0 60px var(--color-panel-inner-glow), inset 5px 0 0 var(--color-role-tank); }
+        #stonesplitmight:hover { box-shadow: 0 16px 24px rgba(0, 0, 0, 0.7), inset 0 0 15px var(--color-gold-glow), 0 0 20px var(--color-gold-glow), inset 5px 0 0 var(--color-role-tank); }
+        #silkbinddeluge { box-shadow: 0 14px 40px rgba(0,0,0,0.7), inset 0 0 60px var(--color-panel-inner-glow), inset 5px 0 0 var(--color-role-healer); }
+        #silkbinddeluge:hover { box-shadow: 0 16px 24px rgba(0, 0, 0, 0.7), inset 0 0 15px var(--color-gold-glow), 0 0 20px var(--color-gold-glow), inset 5px 0 0 var(--color-role-healer); }
+        #bamboocutwind { box-shadow: 0 14px 40px rgba(0,0,0,0.7), inset 0 0 60px var(--color-panel-inner-glow), inset 5px 0 0 var(--color-role-sustained-dps); }
+        #bamboocutwind:hover { box-shadow: 0 16px 24px rgba(0, 0, 0, 0.7), inset 0 0 15px var(--color-gold-glow), 0 0 20px var(--color-gold-glow), inset 5px 0 0 var(--color-role-sustained-dps); }
+        #bellstrikesplendor { box-shadow: 0 14px 40px rgba(0,0,0,0.7), inset 0 0 60px var(--color-panel-inner-glow), inset 5px 0 0 var(--color-role-burst-dps); }
+        #bellstrikesplendor:hover { box-shadow: 0 16px 24px rgba(0, 0, 0, 0.7), inset 0 0 15px var(--color-gold-glow), 0 0 20px var(--color-gold-glow), inset 5px 0 0 var(--color-role-burst-dps); }
+        #cyclonegrasp { box-shadow: 0 14px 40px rgba(0,0,0,0.7), inset 0 0 60px var(--color-panel-inner-glow), inset 5px 0 0 var(--color-role-pvp); }
+        #cyclonegrasp:hover { box-shadow: 0 16px 24px rgba(0, 0, 0, 0.7), inset 0 0 15px var(--color-gold-glow), 0 0 20px var(--color-gold-glow), inset 5px 0 0 var(--color-role-pvp); }
+
+        /* --- STYLES DE LA PAGE DE GARDE --- */
+        #zenith-landing{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center, rgba(18,18,18,1) 0%, rgba(5,5,5,1) 60%);z-index:2000;overflow:hidden;transition: opacity 0.6s ease-out, visibility 0.6s ease-out;}
+        .landing-panel{width:min(920px,92%);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:18px;padding:48px 40px;box-shadow:0 14px 40px rgba(0,0,0,0.7), inset 0 0 60px rgba(180,150,90,0.03);border:1px solid rgba(180,150,90,0.08);display:flex;gap:28px;align-items:center}
+        .landing-left{flex:1;min-width:260px}
+        .landing-right{width:320px;display:flex;flex-direction:column;gap:14px;align-items:center}
+
+        /* Titre avec Effet de Brillance */
+        .landing-title{font-size:38px;line-height:1.02;text-transform:uppercase;letter-spacing:4px;font-weight:800;background:linear-gradient(90deg,var(--color-gold-hover),var(--color-gold-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative}
+        .landing-title::after{content:"";position:absolute;left:-40%;top:0;height:100%;width:40%;background:linear-gradient(90deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.0) 100%);transform:skewX(-18deg);animation:shine 3s infinite;}
+
+        /* Sous-titre et CTA */
+        .landing-sub{font-family:var(--font-code);color:var(--color-text-subtle);margin-top:8px;font-size:14px}
+        .cta{margin-top:20px;display:flex;gap:12px;align-items:center}
+        .btn-primary{background:linear-gradient(180deg,var(--color-gold-light),var(--color-gold-hover));color:#0A0A0A;padding:12px 22px;border-radius:40px;font-weight:700;border:none;cursor:pointer;box-shadow:0 10px 30px rgba(180,150,90,0.12),0 0 18px rgba(180,150,90,0.06);transition:transform .18s ease}
+        .btn-primary:hover{transform:scale(1.05);}
+        .btn-ghost{background:transparent;border:1px solid rgba(180,150,90,0.14);padding:10px 16px;border-radius:10px;color:var(--color-text-subtle);cursor:pointer}
+        .btn-ghost:hover{color:var(--color-gold-hover);background:rgba(255,255,255,0.02)}
+
+        /* Décoration (Art) */
+        .landing-art{width:200px;height:200px;border-radius:12px;background:linear-gradient(135deg, rgba(100,149,237,0.08), rgba(180,150,90,0.04));display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.02);box-shadow:inset 0 0 40px rgba(180,150,90,0.02)}
+        .landing-art-icon{font-size:100px;color:var(--color-gold-hover);opacity:0.8;text-shadow:0 0 20px var(--color-gold-glow)}
+
+        @media (max-width: 600px) {
+            .landing-panel { flex-direction: column; text-align: center; }
+            .landing-right { width: 100%; }
+            .cta { justify-content: center; }
+            .landing-title { font-size: 30px; letter-spacing: 2px; }
+        }
+        /* --- FIN DES STYLES DE LA PAGE DE GARDE --- */
+        
+        /* Autres styles */
+        table { width: 100%; border-collapse: collapse; margin-bottom: var(--spacing-md); background-color: var(--color-card-bg); border: 1px solid var(--color-gold-dark); font-size: 0.95em; }
+        th, td { padding: var(--spacing-sm) var(--spacing-md); text-align: left; border-bottom: 1px solid #2A2A2A; }
+        th { background-color: #252525; color: var(--color-gold-light); text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px; }
+        tr:nth-child(even) { background-color: var(--color-card-bg-subtle); }
+        .build-section-content:last-of-type { border-top: 1px dashed var(--color-gold-dark); padding-top: var(--spacing-md); }
+        .keyword { font-weight: 600; }
+        #stonesplitmight .keyword { color: var(--color-role-tank); }
+        #silkbinddeluge .keyword { color: var(--color-role-healer); }
+        #bamboocutwind .keyword { color: var(--color-role-sustained-dps); }
+        #bellstrikesplendor .keyword { color: var(--color-role-burst-dps); }
+        #cyclonegrasp .keyword { color: var(--color-role-pvp); }
+        .swap-marker { font-family: var(--font-code); color: var(--color-gold-light); font-weight: bold; background-color: #333; padding: 2px 5px; border-radius: 3px; white-space: nowrap; }
+        .emphasized-data { color: var(--color-gold-light); font-weight: bold; }
+        .set-bonus ul, .consumables-list, .strategy-list { list-style: none; padding-left: 0;}
+        .pro-con-list { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); list-style: none; padding-left: 0; }
+        .pro-con-list li { padding-left: 25px; position: relative; margin-bottom: var(--spacing-sm); }
+        .pro-con-list li::before { position: absolute; left: 0; font-weight: bold; font-size: 1.2em; }
+        .pro-con-list .pro::before { content: "+"; color: var(--color-role-healer); }
+        .pro-con-list .con::before { content: "-"; color: var(--color-role-burst-dps); }
+        .back-to-top { display: block; text-align: center; margin-top: var(--spacing-md); color: var(--color-gold-light); text-decoration: none; font-weight: 600; transition: color 0.3s, transform 0.3s; }
+        .back-to-top:hover { color: var(--color-gold-hover); transform: scale(1.05); }
+        .sticky-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background-color: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--color-gold-dark); }
+        nav { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 var(--spacing-md); height: 60px; }
+        nav .nav-brand a { text-decoration: none; font-weight: 800; color: var(--color-gold-light); letter-spacing: 1px; }
+        nav .nav-links { display: flex; list-style: none; margin: 0; padding: 0; }
+        nav .nav-links a { display: block; padding: var(--spacing-sm) var(--spacing-md); text-decoration: none; color: var(--color-text-subtle); font-weight: 600; transition: color 0.3s, background-color 0.3s; cursor: pointer; }
+        nav .nav-links a:hover, nav .nav-links a.active { color: var(--color-gold-hover); background-color: var(--color-card-bg-subtle); }
+        .copy-btn { background: none; border: 1px solid var(--color-gold-dark); color: var(--color-gold-light); font-family: var(--font-code); font-size: 0.8em; padding: 5px 10px; cursor: pointer; transition: all 0.3s; }
+        .copy-btn:hover:not(:disabled) { background-color: var(--color-gold-dark); }
+        .copy-btn:disabled { color: var(--color-text-subtle); border-color: #333; cursor: default; }
+        footer { text-align: center; padding: var(--spacing-md) 0; margin-top: var(--spacing-xl); border-top: 1px dashed var(--color-gold-dark); color: var(--color-text-subtle); font-size: 0.85em; font-family: var(--font-code); }
+        @media (max-width: 900px) { nav .nav-links { flex-wrap: wrap; justify-content: center; } nav { height: auto; padding: var(--spacing-sm) var(--spacing-md); } }
+        @media (max-width: 768px) { .pro-con-list { grid-template-columns: 1fr; } }
+        /* [END OF ZENITH CSS CODE] */
+    </style>
+</head>
+<body>
+
+    <div id="zenith-landing">
+        <div class="landing-panel">
+            <div class="landing-left">
+                <div class="landing-title">LE PORTAIL ZÉNITH DES BUILDS</div>
+                <div class="landing-sub">Méta Vérifiée - Where Winds Meet</div>
+                <p style="color:var(--color-text-subtle); margin-top:18px;">
+                    Bienvenue, Voyageur. Ce portail a été conçu pour vous fournir les guides de builds les plus précis et efficaces, basés sur le **gameplay de haut niveau vérifié**.
+                </p>
+                
+                <div class="cta">
+                    <button id="enter-btn" class="btn-primary">Entrer dans le Portail</button>
+                    <button id="skip-btn" class="btn-ghost">Passer l'Introduction</button>
+                </div>
+            </div>
+
+            <div class="landing-right">
+                <div class="landing-art">
+                    <span class="landing-art-icon">⚡</span>
+                </div>
+                <p style="font-size:14px; color:var(--color-gold-light); font-weight:600;">Dominez la Méta.</p>
+            </div>
+        </div>
+    </div>
+    <header class="sticky-header">
+        <nav>
+            <div class="nav-brand">
+                <a href="#about">PORTAIL ZÉNITH</a>
+            </div>
+            <ul class="nav-links">
+                <li><a data-filter="all" class="active">Tous</a></li>
+                <li><a data-filter="tank">Tank</a></li>
+                <li><a data-filter="healer">Soigneur</a></li>
+                <li><a data-filter="dps">DPS</a></li>
+                <li><a data-filter="pvp">JcJ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        
+        <header class="scroll-reveal">
+            <h1>Where Winds Meet: Le Portail Zénith des Builds</h1>
+            <p>Le Hub Définitif pour Maîtriser les Arts Martiaux, Basé sur la Méta Chinoise.</p>
+        </header>
+
+        <section id="about" class="about-section scroll-reveal">
+            <h3>À Propos de ce Guide</h3>
+            <p>Bienvenue, Voyageur. Ce portail n'est pas bâti sur la spéculation. Chaque build, chaque priorité de statistique et chaque stratégie ci-incluse est dérivé du <strong>gameplay de haut niveau vérifié</strong> sur les serveurs chinois où la méta a été forgée. Notre mission est de vous fournir les guides les plus précis et efficaces pour maîtriser votre voie lorsque les vents tourneront dans votre direction. <strong>Le Contenu est Roi.</strong></p>
+        </section>
+
+        <section id="stonesplitmight" class="build-detail-section scroll-reveal" data-category="pve tank">
+            <h2>🛡️ Détail du Build : Stonesplit Might (Glaive & Lance)</h2>
+            <p>Le tank principal, focalisé sur la pure survie, la gestion de la menace et l'application de débuffs. Ce build est la pierre angulaire de tout groupe JcE de haut niveau.</p>
+            <div class="build-section-content">
+                <h3>Philosophie de Gameplay & Rôle</h3>
+                <p>En tant que tank Stonesplit Might, votre esprit doit être une forteresse. Votre rôle n'est pas d'infliger des dégâts, mais de contrôler le champ de bataille. Vous dictez le déroulement du combat par votre positionnement, en absorbant des coups catastrophiques et en permettant à vos DPS de déchaîner leur pleine puissance en toute sécurité. La patience, le timing et la conscience de votre environnement sont vos armes les plus affûtées.</p>
+                <ul class="pro-con-list">
+                    <li class="pro">Survie Inégalée : Le plus haut total de PV effectifs du jeu grâce aux boucliers et à la réduction de dégâts.</li>
+                    <li class="pro">Excellent Utilitiaire de Groupe : Fournit des buffs de dégâts cruciaux et le regroupement des ennemis.</li>
+                    <li class="con">Dégâts Personnels Très Faibles : Vous ne serez jamais en haut des classements de dégâts.</li>
+                    <li class="con">Dépendant du Groupe : Un tank sans équipe n'est qu'un mur qui attend de s'effondrer.</li>
+                </ul>
+            </div>
+
+            <section class="build-section-content">
+                <h3>I. Fondations et Progression</h3>
+                <p><strong>École/Faction Recommandée :</strong> <span class="emphasized-data">La Secte de la Montagne de Fer</span></p>
+                <table>
+                    <thead>
+                        <tr><th>Priorité</th><th>Statistique</th><th>Ratio par Niveau</th><th>Note</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Priorité">1. Primaire</td><td data-label="Stat"><strong>Vitalité</strong></td><td data-label="Ratio par Niveau"><strong>+4 points</strong></td><td data-label="Note">Votre source principale de <span class="keyword">PV Max</span> et de puissance de bouclier.</td></tr>
+                        <tr><td data-label="Priorité">2. Secondaire</td><td data-label="Stat">Défense</td><td data-label="Ratio par Niveau">+1 point</td><td data-label="Note">Augmente la survie brute.</td></tr>
+                    </tbody>
+                </table>
+                 <p><strong>Statistiques Prioritaires (Équipement) :</strong></p>
+                <ol>
+                    <li><span class="keyword">PV Max</span> : La base de votre survie et de vos boucliers.</li>
+                    <li><span class="emphasized-data">Réduction de Dégâts</span> : La statistique la plus efficace en fin de jeu pour mitiger les dégâts.</li>
+                    <li>Ténacité : Réduit la durée des effets de contrôle sur vous.</li>
+                </ol>
+            </section>
+            <section class="build-section-content">
+                <h3>II. Équipement Principal : Armes & Armures</h3>
+                <h4>Phase de Montée en Niveau (Niv 1-50)</h4>
+                 <ul>
+                    <li><strong>Glaive :</strong> <span class="emphasized-data">Glaive du Gardien Robuste</span> (Trouvé via les quêtes, offre de la Vitalité brute).</li>
+                    <li><strong>Lance :</strong> <span class="emphasized-data">Lance de la Sentinelle de Fer</span> (Fournit de bonnes défenses et un peu de génération de menace).</li>
+                </ul>
+                <h4>Endgame (BiS - Meilleur Équipement)</h4>
+                <ul>
+                    <li><strong>Arme Principale (Glaive) :</strong> <span class="emphasized-data">Lame du Tonnerre</span>
+                        <ul><li>Génère un <span class="keyword">bouclier de 25% des PV</span>, attire les ennemis et possède une excellente synergie avec les buffs de la lance.</li></ul>
+                        <p class="acquisition-source"><strong>Source :</strong> Fabriqué via l'artisanat de Maître Forgeron.</p>
+                    </li>
+                    <li><strong>Arme Secondaire (Lance) :</strong> <span class="emphasized-data">Lance Brise-tempête</span>
+                        <ul><li>Applique un débuff de <span class="keyword">Vulnérabilité</span> (+16% de dégâts subis), provoque les ennemis et confère un buff de <span class="emphasized-data">Réduction de Dégâts</span>.</li></ul>
+                         <p class="acquisition-source"><strong>Source :</strong> Butin rare sur le boss de raid "Général Lei".</p>
+                    </li>
+                </ul>
+                <div class="set-bonus">
+                    <p><strong>Set d'Armure Recommandé :</strong> <span class="emphasized-data">L'Égide de Fer Immuable</span></p>
+                    <ul>
+                        <li><strong>Bonus (2 pièces) :</strong> Augmente les <span class="keyword">PV Max</span> de 10%.</li>
+                        <li><strong>Bonus (4 pièces) :</strong> Lorsque vous êtes touché, vous gagnez un cumul de "Fermeté", augmentant votre <span class="emphasized-data">Réduction de Dégâts</span> de 2% par cumul (max 5). Les cumuls durent 10 secondes. Ce bonus transforme votre capacité à encaisser en une forteresse impénétrable.</li>
+                    </ul>
+                    <p class="acquisition-source"><strong>Source :</strong> S'obtient dans le raid de haut niveau : Le Bastion du Roi Démon.</p>
+                </div>
+            </section>
+            <section class="build-section-content">
+                <h3>III. Bijoux et Artefacts Recommandés</h3>
+                <p><strong>Priorité des Statistiques sur les Bijoux :</strong></p>
+                <ol>
+                    <li><span class="keyword">PV Max %</span> : Votre priorité absolue pour augmenter la base de vos boucliers.</li>
+                    <li><span class="emphasized-data">Réduction de Dégâts %</span> : La meilleure statistique de survie en fin de jeu pour mitiger les dégâts.</li>
+                    <li>Ténacité : Réduit la durée des effets de contrôle sur vous.</li>
+                </ol>
+                <p><strong>Artefact "Best-in-Slot" :</strong> <span class="emphasized-data">Le Talisman de la Montagne Inébranlable</span></p>
+                <ul>
+                    <li><strong>Effet Unique :</strong> Lorsque vous activez une compétence de bouclier, 15% de la valeur du bouclier est également appliquée à tous les alliés dans un rayon de 10 mètres.</li>
+                    <li><strong>Synergie :</strong> Cet artefact transforme votre rôle de tank personnel en un protecteur de groupe. Il est indispensable pour le contenu de raid le plus difficile.</li>
+                </ul>
+                <p class="acquisition-source"><strong>Source :</strong> Récompense de haut rang de réputation auprès de la faction de la Montagne de Fer.</p>
+            </section>
+            <section class="build-section-content">
+                <h3>IV. Consommables Optimisés</h3>
+                <ul class="consumables-list">
+                    <li><strong>Nourriture :</strong> <span class="emphasized-data">Ragoût de la Tortue de Fer</span> (+150 Vitalité pendant 30 minutes).</li>
+                    <li><strong>Potion de Combat :</strong> <span class="emphasized-data">Élixir Peau-de-pierre</span> (Augmente la Réduction de Dégâts de 20% pendant 15 secondes. À utiliser avant une attaque majeure du boss).</li>
+                </ul>
+            </section>
+            <section class="build-section-content">
+                <h3>V. Compétences Internes : Le Cœur de la Forteresse</h3>
+                <table>
+                    <thead>
+                        <tr><th>Type</th><th>Compétence Interne</th><th>Synergie et Fonction</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Type">Défensive Majeure</td><td data-label="Internal Skill"><span class="emphasized-data">Art de la Résistance</span></td><td data-label="Synergy and Function">Augmente la <span class="keyword">valeur des boucliers</span> générés par les compétences de 15%. Le passif de tanking le plus important.</td></tr>
+                        <tr><td data-label="Type">Défense Active</td><td data-label="Internal Skill"><span class="emphasized-data">Roulette Divine</span></td><td data-label="Synergy and Function">Après une <span class="keyword">Parade Parfaite</span>, confère un buff d'<span class="emphasized-data">Invincibilité</span> de 1,5 seconde. Récompense le jeu proactif.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="build-section-content">
+                <h3>VI. Arts Mystiques : Le Rempart Ultime</h3>
+                <table>
+                    <thead>
+                        <tr><th>Emplacement</th><th>Art Mystique</th><th>Utilité JcE</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Slot"><strong>Défensif / AoE</strong></td><td data-label="Mystical Art"><span class="emphasized-data">Météore Enflammé</span></td><td data-label="PvE Utility">Confère une <span class="keyword">Super Armure</span> (immunité aux contrôles) et <span class="emphasized-data">15% de Réduction de Dégâts</span> pendant le lancement d'une frappe de zone. Essentiel pour maintenir l'aggro et survivre lors des phases de dégâts intenses.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="build-section-content">
+                <h3>VII. Rotation JcE : Le Mur Inébranlable<button class="copy-btn">Copier</button></h3>
+                <table>
+                    <thead>
+                        <tr><th>Étape</th><th>Action</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Step">1</td><td data-label="Action">Ouverture (Lance Brise-tempête) : Appliquer le débuff de <span class="keyword">Vulnérabilité</span> avec la compétence lourde pour augmenter les dégâts de tout le groupe.</td></tr>
+                        <tr><td data-label="Step">2</td><td data-label="Action">Contrôle (Lance Brise-tempête) : Utiliser la compétence légère pour <span class="keyword">provoquer les ennemis en zone (Taunt)</span> et obtenir un buff de réduction de dégâts.</td></tr>
+                        <tr><td data-label="Step">3</td><td data-label="Action">Bouclier (Lame du Tonnerre) : <span class="swap-marker">[SWAP]</span> Activer la compétence légère pour générer un <span class="keyword">bouclier de 25% de vos PV max</span>.</td></tr>
+                        <tr><td data-label="Step">4</td><td data-label="Action">Regroupement (Lame du Tonnerre) : Utiliser la compétence lourde pour attirer les ennemis vers vous, facilitant le DPS de zone pour vos alliés.</td></tr>
+                        <tr><td data-label="Step">5</td><td data-label="Action">Répéter : <span class="emphasized-data">Cycle Court</span> axé sur le rafraîchissement de la Vulnérabilité et du Bouclier dès que possible.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="build-section-content">
+                <h3>VIII. Adaptations Stratégiques</h3>
+                <ul class="strategy-list">
+                    <li><strong>Contre les Dégâts Magiques :</strong> Si un boss inflige principalement des dégâts magiques, remplacez la compétence interne "Roulette Divine" par "Barrière Élémentaire" pour une augmentation passive de votre résistance magique.</li>
+                    <li><strong>Gestion des Adds (Ennemis multiples) :</strong> Priorisez la compétence lourde du Glaive ("Regroupement") pour garder les ennemis groupés sur vous. N'hésitez pas à utiliser votre provocation de zone plus fréquemment, même si cela signifie un léger temps de disponibilité en moins sur la réduction de dégâts.</li>
+                </ul>
+            </section>
+            <a href="#about" class="back-to-top">↑ Retour au Sommaire</a>
+        </section>
+
+        <section id="silkbinddeluge" class="build-detail-section scroll-reveal" data-category="pve healer">
+            <h2>✨ Détail du Build : Silkbind Deluge (Éventail & Parapluie)</h2>
+            <p>Le soigneur de groupe essentiel. Surnommé &quot;Wet Nurse&quot; (奶妈) sur les serveurs chinois, ce build est le seul capable d'assurer le rôle de support, le rendant indispensable.</p>
+            <div class="build-section-content">
+                <h3>Philosophie de Gameplay & Rôle</h3>
+                <p>En tant que soigneur Silkbind Deluge, vous êtes la bouée de sauvetage de votre groupe. Votre gameplay est un acte de triage constant : prédire les dégâts, gérer les ressources et savoir quand utiliser vos puissants sorts. Vous êtes une présence calme au cœur du chaos, et le succès de votre groupe repose sur vos épaules.</p>
+                <ul class="pro-con-list">
+                    <li class="pro">Rôle Indispensable : Le seul soigneur dédié, vous garantissant une place dans n'importe quel groupe.</li>
+                    <li class="pro">Soins Puissants : Capable de maintenir un groupe en vie à travers des dégâts massifs.</li>
+                    <li class="con">Cible Prioritaire : Les ennemis (et les joueurs en JcJ) chercheront souvent à vous éliminer en premier.</li>
+                    <li class="con">Intensif en Ressources : Nécessite une gestion attentive du Qi (mana) durant les longs combats.</li>
+                </ul>
+            </div>
+            <section class="build-section-content">
+                <h3>I. Fondations et Progression</h3>
+                <p><strong>École/Faction Recommandée :</strong> <span class="emphasized-data">L'Abbaye de l'Eau Claire</span></p>
+                <table>
+                    <thead>
+                        <tr><th>Priorité</th><th>Statistique</th><th>Ratio par Niveau</th><th>Note</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Priority">1. Primaire</td><td data-label="Stat"><strong>Affinité</strong></td><td data-label="Ratio par Niveau"><strong>+4 points</strong></td><td data-label="Note">Augmente directement votre <span class="keyword">Puissance des Soins</span>.</td></tr>
+                        <tr><td data-label="Priority">2. Secondaire</td><td data-label="Stat">Volonté</td><td data-label="Ratio par Niveau">+1 point</td><td data-label="Note">Crucial pour la <span class="emphasized-data">régénération de Qi (mana)</span>.</td></tr>
+                    </tbody>
+                </table>
+                <p><strong>Statistiques Prioritaires (Équipement) :</strong></p>
+                <ol>
+                    <li><span class="keyword">Puissance des Soins</span> : Votre statistique principale.</li>
+                    <li><span class="emphasized-data">Récupération de Qi</span> : Pour ne jamais être à court de ressources.</li>
+                    <li>Réduction des Temps de Recharge : Pour utiliser les soins majeurs plus souvent.</li>
+                </ol>
+            </section>
+            <section class="build-section-content">
+                <h3>II. Équipement Principal : Armes & Armures</h3>
+                <div class="set-bonus">
+                    <p><strong>Set d'Armure Recommandé :</strong> <span class="emphasized-data">Les Vêtements du Lotus de Jade</span></p>
+                    <ul>
+                        <li><strong>Bonus (2 pièces) :</strong> Augmente la <span class="keyword">Puissance des Soins</span> de 15%.</li>
+                        <li><strong>Bonus (4 pièces) :</strong> Vos soins sur la durée (HoT) ont 20% de chances de rendre également une petite quantité de <span class="emphasized-data">Qi (mana)</span> à la cible. Ce bonus est vital pour la gestion des ressources du groupe lors des longs combats.</li>
+                    </ul>
+                    <p class="acquisition-source"><strong>Source :</strong> S'obtient dans le donjon de haut niveau : Le Temple Englouti.</p>
+                </div>
+                <h4>Phase de Montée en Niveau (Niv 1-50)</h4>
+                <ul>
+                    <li><strong>Parapluie :</strong> <span class="emphasized-data">Parapluie de l'Apprenti Guérisseur</span> (Privilégie l'Affinité de base).</li>
+                    <li><strong>Éventail :</strong> <span class="emphasized-data">Éventail du Vent Apaisant</span> (Aide à la gestion du Qi en début de partie).</li>
+                </ul>
+                <h4>Endgame (BiS - Meilleur Équipement)</h4>
+                <ul>
+                    <li><strong>Arme Principale (Parapluie) :</strong> <span class="emphasized-data">Parapluie des Neuf Voiles</span>
+                        <ul><li>Permet de déployer le parapluie en l'air, agissant comme un &quot;totem&quot; de <span class="keyword">soin automatique</span> sur l'allié ayant le moins de PV.</li></ul>
+                        <p class="acquisition-source"><strong>Source :</strong> Fabriqué via l'artisanat de Maître Artisan.</p>
+                    </li>
+                    <li><strong>Arme Secondaire (Éventail) :</strong> <span class="emphasized-data">Éventail Panacée</span>
+                        <ul><li>Fournit un puissant <span class="keyword">soin de zone (AoE)</span> et un soin monocible qui peut <span class="emphasized-data">réanimer</span> les coéquipiers tombés au combat.</li></ul>
+                        <p class="acquisition-source"><strong>Source :</strong> Butin rare sur le boss de raid "L'Impératrice de Jade".</p>
+                    </li>
+                </ul>
+            </section>
+            <section class="build-section-content">
+                <h3>III. Bijoux et Artefacts Recommandés</h3>
+                <p><strong>Priorité des Statistiques sur les Bijoux :</strong></p>
+                <ol>
+                    <li><span class="keyword">Puissance des Soins</span> : La statistique la plus directe pour augmenter vos chiffres.</li>
+                    <li><span class="emphasized-data">Récupération de Qi</span> : Plus de ressources signifie plus de soins.</li>
+                    <li>Affinité (Brute) : Excellent complément.</li>
+                </ol>
+                <p><strong>Artefact "Best-in-Slot" :</strong> <span class="emphasized-data">Le Parchemin du Vif-Esprit</span></p>
+                <ul>
+                    <li><strong>Effet Unique :</strong> Chaque fois que vous lancez un soin, vous avez 10% de chances de rendre votre prochain soin instantané et gratuit.</li>
+                    <li><strong>Synergie :</strong> Dans un build qui utilise constamment des soins sur la durée, cet artefact s'active très souvent. Il permet des économies de Qi massives et offre une réactivité incroyable en cas d'urgence.</li>
+                </ul>
+                <p class="acquisition-source"><strong>Source :</strong> Vendeur de monnaie de donjon en échange de Sceaux Ancestraux.</p>
+            </section>
+             <section class="build-section-content">
+                <h3>IV. Consommables Optimisés</h3>
+                <ul class="consumables-list">
+                    <li><strong>Nourriture :</strong> <span class="emphasized-data">Thé Apaisant du Lotus</span> (+150 Affinité pendant 30 minutes).</li>
+                    <li><strong>Potion de Combat :</strong> <span class="emphasized-data">Potion de Clarté Spirituelle</span> (Restaure instantanément 30% de votre Qi max. À utiliser lorsque vos ressources sont basses).</li>
+                </ul>
+            </section>
+            <section class="build-section-content">
+                <h3>V. Compétences Internes : Le Cœur de la Bienveillance</h3>
+                <table>
+                    <thead>
+                        <tr><th>Type</th><th>Compétence Interne</th><th>Synergie et Fonction</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Type">Soin Majeur</td><td data-label="Internal Skill"><span class="emphasized-data">Renaissance Ésotérique</span></td><td data-label="Synergy and Function">Augmente les <span class="keyword">soins de 50%</span> sur les cibles ayant moins de 40% de PV. Un passif salvateur.</td></tr>
+                        <tr><td data-label="Type">Défensive</td><td data-label="Internal Skill"><span class="emphasized-data">Neige du Soir</span></td><td data-label="Synergy and Function">Augmente la Défense Physique et la Résistance aux dégâts élémentaires. Crucial pour la survie personnelle du soigneur.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="build-section-content">
+                <h3>VI. Arts Mystiques : Le Souffle de Vie</h3>
+                <table>
+                    <thead>
+                        <tr><th>Emplacement</th><th>Art Mystique</th><th>Utilité JcE</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Slot"><strong>Support / Contrôle</strong></td><td data-label="Mystical Art"><span class="emphasized-data">Brume Aveuglante</span></td><td data-label="PvE Utility">Lance une brume qui <span class="keyword">aveugle et immobilise</span> jusqu'à 6 ennemis pendant 5 secondes. Crucial pour <span class="keyword">protéger le soigneur</span> des adds ou pour créer une zone de sécurité pour une réanimation.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="build-section-content">
+                <h3>VII. Rotation JcE : Le Flux Apaisant<button class="copy-btn">Copier</button></h3>
+                <table>
+                    <thead>
+                        <tr><th>Étape</th><th>Action</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Step">1</td><td data-label="Action">Préparation (Parapluie) : Lancer le parapluie en l'air pour initier le <span class="keyword">soin passif automatique</span> sur la cible la plus basse en PV.</td></tr>
+                        <tr><td data-label="Step">2</td><td data-label="Action">Soin de Groupe (Éventail) : <span class="swap-marker">[SWAP]</span> Utiliser le <span class="keyword">soin de zone</span> de l'éventail pour remonter la vie du groupe.</td></tr>
+                        <tr><td data-label="Step">3</td><td data-label="Action">Maintien : Rester à distance, utiliser les attaques légères de l'éventail et garder les ressources pour les soins d'urgence.</td></tr>
+                        <tr><td data-label="Step">4</td><td data-label="Action">Urgence (Éventail) : Utiliser le <span class="emphasized-data">soin monocible lourd</span> pour sauver un allié en danger ou le réanimer.</td></tr>
+                        <tr><td data-label="Step">5</td><td data-label="Action">Répéter : Gérer le <span class="emphasized-data">Qi</span> et maintenir le parapluie en l'air aussi souvent que possible.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+             <section class="build-section-content">
+                <h3>VIII. Adaptations Stratégiques</h3>
+                <ul class="strategy-list">
+                    <li><strong>Dégâts de Groupe Continus :</strong> Priorisez le maintien du parapluie en l'air et l'utilisation fréquente du soin de zone de l'éventail. La gestion du Qi est primordiale.</li>
+                    <li><strong>Pics de Dégâts sur le Tank :</strong> Gardez toujours votre soin monocible lourd hors cooldown lorsque vous anticipez une attaque majeure du boss. Votre priorité est la survie du tank, même si le reste du groupe perd quelques PV.</li>
+                </ul>
+            </section>
+            <a href="#about" class="back-to-top">↑ Retour au Sommaire</a>
+        </section>
+
+        <section id="bamboocutwind" class="build-detail-section scroll-reveal" data-category="pve dps">
+             <h2>⚔️ Détail du Build : Bamboocut Wind (Lames Jumelles & Corde Dague)</h2>
+            <p>Le spécialiste des dégâts soutenus, de type &quot;assassin&quot;. Ce build de rang S est réputé pour sa vitesse d'attaque effrénée et sa capacité à maintenir une pression constante sur les cibles.</p>
+            <div class="build-section-content">
+                <h3>Philosophie de Gameplay & Rôle</h3>
+                <p>Jouer Bamboocut Wind, c'est devenir une tempête implacable. Votre objectif est un temps de contact maximal sur votre cible, lui collant comme une ombre et la submergeant d'un nombre étourdissant d'attaques. Vous êtes un artiste de l'agression, esquivant le danger pour vous assurer que vos lames ne cessent jamais leur chant mortel.</p>
+                <ul class="pro-con-list">
+                    <li class="pro">Vitesse d'Attaque Incroyable : Le build qui frappe le plus vite, excellent pour appliquer des effets à l'impact.</li>
+                    <li class="pro">Dégâts Soutenus Élevés : Épuise même les ennemis les plus robustes par une pression constante.</li>
+                    <li class="con">Fragile : Manque d'options défensives et dépend de la mobilité pour survivre.</li>
+                    <li class="con">Nécessite un Temps de Contact Élevé : Vos dégâts chutent si vous ne pouvez pas rester sur votre cible.</li>
+                </ul>
+            </div>
+            <section class="build-section-content">
+                <h3>I. Fondations et Progression</h3>
+                <p><strong>École/Faction Recommandée :</strong> <span class="emphasized-data">Le Clan du Vent de Lame</span></p>
+                <table>
+                    <thead>
+                        <tr><th>Priorité</th><th>Statistique</th><th>Ratio par Niveau</th><th>Note</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Priority">1. Primaire</td><td data-label="Stat"><strong>Force</strong></td><td data-label="Ratio par Niveau"><strong>+4 points</strong></td><td data-label="Note">La source principale de vos <span class="keyword">dégâts physiques</span>.</td></tr>
+                        <tr><td data-label="Priority">2. Secondaire</td><td data-label="Stat">Agilité</td><td data-label="Ratio par Niveau">+1 point</td><td data-label="Note">Augmente la <span class="emphasized-data">Vitesse d'Attaque</span>.</td></tr>
+                    </tbody>
+                </table>
+                <p><strong>Statistiques Prioritaires (Équipement) :</strong></p>
+                <ol>
+                    <li><span class="keyword">Dégâts Physiques</span> : Pour augmenter les dégâts de chaque coup.</li>
+                    <li><span class="emphasized-data">Taux de Critique & DGT Critiques</span> : Essentiel pour un build basé sur de nombreux coups rapides.</li>
+                    <li>Vitesse d'Attaque : Visez un cap confortable d'environ 15% pour fluidifier les combos.</li>
+                </ol>
+            </section>
+            <section class="build-section-content">
+                <h3>II. Équipement Principal : Armes & Armures</h3>
+                <div class="set-bonus">
+                    <p><strong>Set d'Armure Recommandé :</strong> <span class="emphasized-data">L'Armure du Dragon Cinglant</span></p>
+                    <ul>
+                        <li><strong>Bonus (2 pièces) :</strong> Augmente la <span class="keyword">Force</span> de 50.</li>
+                        <li><strong>Bonus (4 pièces) :</strong> Chaque attaque de base consécutive sur une même cible augmente votre <span class="emphasized-data">Vitesse d'Attaque</span> de 3% (max 15%). Changer de cible ou ne pas attaquer pendant 3 secondes réinitialise les cumuls. Ce set récompense une agression constante.</li>
+                    </ul>
+                    <p class="acquisition-source"><strong>Source :</strong> S'obtient dans le raid de haut niveau : Le Pic du Condor Éternel.</p>
+                </div>
+                <h4>Phase de Montée en Niveau (Niv 1-50)</h4>
+                <ul>
+                    <li><strong>Lames Jumelles :</strong> <span class="emphasized-data">Lames Jumelles du Vif-Argent</span> (Bonus de Force et de vitesse d'attaque de base).</li>
+                    <li><strong>Corde Dague :</strong> <span class="emphasized-data">Corde-Dague de l'Ombre Furtive</span> (Apporte de la mobilité et un peu d'Agilité).</li>
+                </ul>
+                <h4>Endgame (BiS - Meilleur Équipement)</h4>
+                <ul>
+                    <li><strong>Arme Principale (Lames Jumelles) :</strong> <span class="emphasized-data">Lames Jumelles Infernales</span>
+                       <ul><li>Une arme à très haute vitesse d'attaque, conçue pour submerger l'ennemi sous un déluge de coups.</li></ul>
+                       <p class="acquisition-source"><strong>Source :</strong> Butin rare sur le boss mondial : La Manticore des Cendres.</p>
+                    </li>
+                    <li><strong>Arme Secondaire (Corde Dague) :</strong> <span class="emphasized-data">Corde Dague Mortelle</span>
+                        <ul><li>Offre une excellente <span class="keyword">mobilité</span> pour se rapprocher des cibles.</li></ul>
+                        <p class="acquisition-source"><strong>Source :</strong> Fabriqué via l'artisanat de Maître Tanneur.</p>
+                    </li>
+                </ul>
+            </section>
+             <section class="build-section-content">
+                <h3>III. Bijoux et Artefacts Recommandés</h3>
+                <p><strong>Priorité des Statistiques sur les Bijoux :</strong></p>
+                <ol>
+                    <li><span class="keyword">Taux de Critique %</span> : Votre priorité n°1 pour activer vos passifs et augmenter vos dégâts.</li>
+                    <li><span class="emphasized-data">Dégâts Critiques %</span> : Une fois un bon taux de critique atteint (cible ~50%), cette stat devient la plus rentable.</li>
+                    <li>Force (Brute) : Toujours une excellente source de dégâts.</li>
+                </ol>
+                <p><strong>Artefact "Best-in-Slot" :</strong> <span class="emphasized-data">La Plume du Faucon Pèlerin</span></p>
+                <ul>
+                    <li><strong>Effet Unique :</strong> Vos coups critiques ont 15% de chances de déclencher une attaque supplémentaire qui inflige 50% des dégâts de votre arme, et vous confère un bref bonus de vitesse de déplacement.</li>
+                    <li><strong>Synergie :</strong> Dans un build qui inflige un nombre massif de petits coups très rapides, cet artefact s'active constamment, ajoutant une source de dégâts considérable et améliorant encore votre mobilité déjà excellente.</li>
+                </ul>
+                <p class="acquisition-source"><strong>Source :</strong> Récompense de haut rang de réputation auprès du Clan du Vent de Lame.</p>
+            </section>
+             <section class="build-section-content">
+                <h3>IV. Consommables Optimisés</h3>
+                <ul class="consumables-list">
+                    <li><strong>Nourriture :</strong> <span class="emphasized-data">Brochettes de Serpent Épicées</span> (+150 Force pendant 30 minutes).</li>
+                    <li><strong>Potion de Combat :</strong> <span class="emphasized-data">Huile de Lames Cinglantes</span> (Augmente la Vitesse d'Attaque de 20% pendant 15 secondes).</li>
+                </ul>
+            </section>
+            <section class="build-section-content">
+                <h3>V. Compétences Internes : Le Cœur de la Tempête</h3>
+                <table>
+                    <thead>
+                        <tr><th>Type</th><th>Compétence Interne</th><th>Synergie et Fonction</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Type">Offensive Majeure</td><td data-label="Internal Skill"><span class="emphasized-data">Point de Rupture</span></td><td data-label="Synergy and Function">Les coups critiques augmentent votre <span class="keyword">Pénétration Physique</span> et vos <span class="emphasized-data">Dégâts Critiques</span> pendant 6 secondes (cumulable 3 fois). Le cœur du build.</td></tr>
+                        <tr><td data-label="Type">Offensive Secondaire</td><td data-label="Internal Skill"><span class="emphasized-data">Échos de l'Oubli</span></td><td data-label="Synergy and Function">Les attaques légères ont une chance d'appliquer une marque. Attaquer une cible marquée permet d'ignorer <span class="keyword">10% de sa Défense</span>.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="build-section-content">
+                <h3>VI. Arts Mystiques : La Frappe Fantôme</h3>
+                <table>
+                    <thead>
+                        <tr><th>Emplacement</th><th>Art Mystique</th><th>Utilité JcE</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Slot"><strong>Mobilité / Burst AoE</strong></td><td data-label="Mystical Art"><span class="emphasized-data">Morphose Libre</span></td><td data-label="PvE Utility">Vous projette en l'air pour un assaut aérien, se terminant par un <span class="keyword">écrasement de zone</span>. Fournit un burst, une <span class="emphasized-data">mobilité inestimable</span> pour esquiver ou engager, et un clear AoE.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="build-section-content">
+                <h3>VII. Rotation JcE : La Tempête de Lames<button class="copy-btn">Copier</button></h3>
+                <table>
+                    <thead>
+                        <tr><th>Étape</th><th>Action</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Step">1</td><td data-label="Action">Engagement (Corde Dague) : Utiliser la compétence de grappin pour <span class="keyword">vous projeter instantanément sur la cible</span>.</td></tr>
+                        <tr><td data-label="Step">2</td><td data-label="Action">Déchaînement (Lames Jumelles) : <span class="swap-marker">[SWAP]</span> Activer les compétences offensives et commencer le cycle d'attaques légères pour infliger un maximum de dégâts rapides.</td></tr>
+                        <tr><td data-label="Step">3</td><td data-label="Action">Pression Continue (Lames Jumelles) : Maintenir les combos d'attaques légères, en utilisant les compétences dès qu'elles sont disponibles pour maximiser le DPS.</td></tr>
+                        <tr><td data-label="Step">4</td><td data-label="Action">Repositionnement (Corde Dague) : <span class="swap-marker">[SWAP]</span> Utiliser les compétences de mobilité de la corde dague pour esquiver les attaques majeures du boss ou pour changer de cible rapidement.</td></tr>
+                        <tr><td data-label="Step">5</td><td data-label="Action">Répéter : <span class="emphasized-data">Cycle Très Rapide</span> axé sur le maintien au contact et une agression constante.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="build-section-content">
+                <h3>VIII. Adaptations Stratégiques</h3>
+                <ul class="strategy-list">
+                    <li><strong>Cibles Très Mobiles :</strong> Ne soyez pas avare de l'utilisation de votre Corde Dague. Mieux vaut une courte perte de DPS pour vous repositionner que de perdre complètement le contact et les cumuls de votre set d'armure.</li>
+                    <li><strong>Phase de "Cleave" (Dégâts sur plusieurs cibles) :</strong> Bien que principalement monocible, vous pouvez optimiser vos dégâts sur des cibles groupées en vous positionnant de manière à ce que vos attaques de base traversent la cible principale pour toucher celles derrière.</li>
+                </ul>
+            </section>
+            <a href="#about" class="back-to-top">↑ Retour au Sommaire</a>
+        </section>
+
+        <section id="bellstrikesplendor" class="build-detail-section scroll-reveal" data-category="pve dps">
+            <h2>🔥 Détail du Build : Bellstrike Splendor (Épée & Lance)</h2>
+            <p>Le build DPS de départ le plus recommandé. Il combine mobilité, simplicité et de lourds dégâts de compétence, restant puissant même en fin de jeu.</p>
+             <div class="build-section-content">
+                <h3>Philosophie de Gameplay & Rôle</h3>
+                <p>La voie du Bellstrike Splendor est celle d'une létalité élégante. Votre gameplay tourne autour du maintien de la distance parfaite, de la charge de votre puissance et du déchaînement de vagues d'énergie dévastatrices au moment opportun. Vous êtes un chasseur patient, utilisant votre mobilité pour créer des ouvertures et punir vos ennemis avec un burst de dégâts de compétence écrasant.</p>
+                <ul class="pro-con-list">
+                    <li class="pro">Haute Mobilité : Excellent pour se repositionner et esquiver les mécaniques.</li>
+                    <li class="pro">Rotation Simple et Efficace : Facile à apprendre mais difficile à maîtriser, offrant un haut potentiel.</li>
+                    <li class="con">Dépendant de l'Endurance : Vos dégâts sont directement liés à votre gestion de l'endurance pour les attaques chargées.</li>
+                    <li class="con">Dégâts Soutenus Plus Faibles : Moins de pression entre les fenêtres de burst que Bamboocut Wind.</li>
+                </ul>
+            </div>
+            <section class="build-section-content">
+                <h3>I. Fondations et Progression</h3>
+                 <p><strong>École/Faction Recommandée :</strong> <span class="emphasized-data">Le Clan de la Montagne Silencieuse</span></p>
+                <table>
+                    <thead>
+                        <tr><th>Priorité</th><th>Statistique</th><th>Ratio par Niveau</th><th>Note</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Priority">1. Primaire</td><td data-label="Stat"><strong>Force</strong></td><td data-label="Ratio par Niveau"><strong>+4 points</strong></td><td data-label="Note">Augmente les dégâts de base de vos attaques et compétences.</td></tr>
+                        <tr><td data-label="Priority">2. Secondaire</td><td data-label="Stat">Maîtrise</td><td data-label="Ratio per Level">+1 point</td><td data-label="Note">Augmente les <span class="keyword">dégâts des compétences</span>.</td></tr>
+                    </tbody>
+                </table>
+                <p><strong>Statistiques Prioritaires (Équipement) :</strong></p>
+                <ol>
+                    <li><span class="keyword">Dégâts Physiques</span> : Pour des coups de base solides.</li>
+                    <li><span class="emphasized-data">Dégâts de Compétence</span> : Crucial pour amplifier la puissance de vos vagues d'énergie.</li>
+                    <li>Critique (Taux & DGT) : pour des pics de dégâts plus élevés.</li>
+                </ol>
+            </section>
+            <section class="build-section-content">
+                <h3>II. Équipement Principal : Armes & Armures</h3>
+                 <div class="set-bonus">
+                    <p><strong>Set d'Armure Recommandé :</strong> <span class="emphasized-data">La Tenue du Ciel Fracturé</span></p>
+                    <ul>
+                        <li><strong>Bonus (2 pièces) :</strong> Augmente la <span class="keyword">Maîtrise</span> de 50.</li>
+                        <li><strong>Bonus (4 pièces) :</strong> Les compétences chargées infligent 20% de dégâts supplémentaires et ignorent 15% de l'armure de la cible. Ce bonus est la pierre angulaire du build, amplifiant massivement votre source principale de dégâts.</li>
+                    </ul>
+                    <p class="acquisition-source"><strong>Source :</strong> S'obtient dans le raid de haut niveau : La Citadelle Céleste.</p>
+                </div>
+                <h4>Phase de Montée en Niveau (Niv 1-50)</h4>
+                <ul>
+                    <li><strong>Épée :</strong> <span class="emphasized-data">Épée Longue du Soldat Déterminé</span> (Un bon équilibre de Force et de stats de base).</li>
+                    <li><strong>Lance :</strong> <span class="emphasized-data">Lance de l'Initié Zélé</span> (Facile à obtenir, utile pour sa portée).</li>
+                </ul>
+                <h4>Endgame (BiS - Meilleur Équipement)</h4>
+                <ul>
+                    <li><strong>Arme Principale (Épée) :</strong> <span class="emphasized-data">Épée Sans Nom</span>
+                        <ul><li>Permet de lancer des <span class="keyword">vagues d'énergie d'épée</span> à distance via une compétence chargée.</li></ul>
+                        <p class="acquisition-source"><strong>Source :</strong> Suite de quêtes légendaire "L'Écho de l'Acier".</p>
+                    </li>
+                    <li><strong>Arme Secondaire (Lance) :</strong> <span class="emphasized-data">Lance Sans Nom</span>
+                        <ul><li>Possède une compétence clé qui <span class="emphasized-data">restaure l'endurance</span>, permettant d'enchaîner les attaques de l'épée.</li></ul>
+                        <p class="acquisition-source"><strong>Source :</strong> Suite de quêtes légendaire "L'Écho de l'Acier".</p>
+                    </li>
+                </ul>
+            </section>
+            <section class="build-section-content">
+                <h3>III. Bijoux et Artefacts Recommandés</h3>
+                <p><strong>Priorité des Statistiques sur les Bijoux :</strong></p>
+                <ol>
+                    <li><span class="keyword">Dégâts de Compétence %</span> : La meilleure stat pour augmenter directement votre source principale de dégâts.</li>
+                    <li><span class="emphasized-data">Maîtrise</span> : Augmente encore plus les dégâts de vos compétences.</li>
+                    <li>Pénétration : Pour ignorer une partie de l'armure du boss.</li>
+                </ol>
+                <p><strong>Artefact "Best-in-Slot" :</strong> <span class="emphasized-data">Le Sceau du Dragon Ascendant</span></p>
+                <ul>
+                    <li><strong>Effet Unique :</strong> Chaque fois que vous utilisez une compétence qui consomme plus de 50% de votre endurance max (comme votre attaque chargée), vous gagnez un buff de 15% de dégâts sur votre prochaine compétence.</li>
+                    <li><strong>Synergie :</strong> Cet artefact est fait sur mesure pour ce build. Il crée une boucle de rétroaction positive parfaite avec votre rotation : votre attaque d'épée chargée consomme l'endurance, ce qui active le buff de l'artefact, renforçant ainsi la prochaine attaque chargée que vous lancez après avoir récupéré votre endurance avec la lance.</li>
+                </ul>
+                <p class="acquisition-source"><strong>Source :</strong> Récompense finale du Défi des Sept Épreuves Célestes.</p>
+            </section>
+             <section class="build-section-content">
+                <h3>IV. Consommables Optimisés</h3>
+                <ul class="consumables-list">
+                    <li><strong>Nourriture :</strong> <span class="emphasized-data">Délices du Pic Solitaire</span> (+150 Maîtrise pendant 30 minutes).</li>
+                    <li><strong>Potion de Combat :</strong> <span class="emphasized-data">Philtre de Tempête Déchaînée</span> (Augmente les Dégâts de Compétence de 25% pendant 15 secondes. À synchroniser avec votre phase de burst).</li>
+                </ul>
+            </section>
+            <section class="build-section-content">
+                <h3>V. Compétences Internes : Le Cœur de la Lame</h3>
+                <table>
+                    <thead>
+                        <tr><th>Type</th><th>Compétence Interne</th><th>Synergie et Fonction</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Type">Offensive Majeure</td><td data-label="Internal Skill"><span class="emphasized-data">Hymne de Bataille</span></td><td data-label="Synergy and Function">Augmente les <span class="keyword">dégâts des Compétences Chargées</span> de 10%. Synergie directe avec le gameplay de l'Épée Sans Nom.</td></tr>
+                        <tr><td data-label="Type">Utilitaire</td><td data-label="Internal Skill"><span class="emphasized-data">Charge Évasive</span></td><td data-label="Synergy and Function">Une <span class="keyword">Esquive Parfaite</span> réussie a 50% de chance de <span class="emphasized-data">rembourser l'Endurance consommée</span>. Essentiel pour la gestion des ressources.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="build-section-content">
+                <h3>VI. Arts Mystiques : L'Écho de la Lame</h3>
+                <table>
+                    <thead>
+                        <tr><th>Emplacement</th><th>Art Mystique</th><th>Utilité JcE</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Slot"><strong>Burst Monocible</strong></td><td data-label="Mystical Art"><span class="emphasized-data">Poète Ivre</span></td><td data-label="PvE Utility">Une compétence à incantation rapide qui consomme une petite portion de vos PV. Parfait pour les phases d'<span class="keyword">exécution</span> sur un boss.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="build-section-content">
+                <h3>VII. Rotation JcE : La Danse de l'Épée<button class="copy-btn">Copier</button></h3>
+                <table>
+                    <thead>
+                        <tr><th>Étape</th><th>Action</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Step">1</td><td data-label="Action">Ouverture (Épée Sans Nom) : Engager à distance en maintenant l'attaque lourde chargée pour lancer les <span class="keyword">trois vagues d'énergie d'épée</span>.</td></tr>
+                        <tr><td data-label="Step">2</td><td data-label="Action">Ressource (Lance Sans Nom) : <span class="swap-marker">[SWAP]</span> Dès que l'endurance est basse, utiliser la compétence de la lance pour la <span class="emphasized-data">récupérer instantanément</span>.</td></tr>
+                        <tr><td data-label="Step">3</td><td data-label="Action">Burst (Épée Sans Nom) : <span class="swap-marker">[SWAP]</span> Revenir immédiatement à l'épée et réutiliser l'attaque lourde chargée. Grâce à la lance, le temps mort est quasi inexistant.</td></tr>
+                        <tr><td data-label="Step">4</td><td data-label="Action">Remplissage : Utiliser les compétences légères des deux armes pendant les temps de recharge pour maintenir le DPS.</td></tr>
+                        <tr><td data-label="Step">5</td><td data-label="Action">Répéter : <span class="emphasized-data">Cycle Long</span> axé sur la synergie parfaite entre la dépense d'endurance de l'épée et la récupération de la lance.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+             <section class="build-section-content">
+                <h3>VIII. Adaptations Stratégiques</h3>
+                <ul class="strategy-list">
+                    <li><strong>Fenêtres de Burst :</strong> Votre plus grande force est le burst. Apprenez les phases où le boss est stationnaire ou vulnérable pour synchroniser votre potion de combat avec votre double compétence chargée. Ne gaspillez pas votre burst si le boss est sur le point de bouger.</li>
+                    <li><strong>Gestion d'Endurance Faible :</strong> Si vous faites une erreur et que votre compétence de lance n'est pas disponible, ne forcez pas une attaque chargée. Passez à un cycle d'attaques légères et de compétences non-chargées pour maintenir un DPS minimum en attendant que vos ressources reviennent.</li>
+                </ul>
+            </section>
+            <a href="#about" class="back-to-top">↑ Retour au Sommaire</a>
+        </section>
+        
+        <section id="cyclonegrasp" class="build-detail-section scroll-reveal" data-category="pvp dps">
+            <h2>🌀 Détail du Build : La Poigne du Cyclone (Éventail & Lames Jumelles)</h2>
+            <p>Le build S-Tier de la méta JcJ chinoise. Il incarne le style &quot;contrôle et burst&quot;, en utilisant les puissants contrôles de foule (CC) de l'Éventail pour créer une ouverture et anéantir la cible avec le combo des Lames Jumelles.</p>
+            <div class="build-section-content">
+                <h3>Philosophie de Gameplay & Rôle</h3>
+                <p>Jouer La Poigne du Cyclone est un exercice de patience prédatrice. Vous n'êtes pas un bagarreur ; vous êtes un opportuniste. Votre but est d'appâter votre adversaire pour le pousser à l'erreur, de le verrouiller avec le contrôle oppressant de l'Éventail, puis de l'exécuter en un seul burst inéluctable. Vos combats sont gagnés par votre esprit avant même que vos lames ne touchent.</p>
+                <ul class="pro-con-list">
+                    <li class="pro">Potentiel de Contrôle Incroyable : La meilleure chaîne de contrôle de foule du jeu.</li>
+                    <li class="pro">Très Haut Potentiel d'Élimination : Peut éliminer la plupart des cibles en une seule fenêtre de CC.</li>
+                    <li class="con">Ne Pardonne Pas : Si vous manquez votre ouverture ou si votre combo est interrompu, vous êtes très vulnérable.</li>
+                    <li class="con">Dépendant des Cooldowns : Très dépendant de la disponibilité des compétences clés pour être efficace.</li>
+                </ul>
+            </div>
+            <section class="build-section-content">
+                <h3>I. Fondations et Progression</h3>
+                <p><strong>École/Faction Recommandée :</strong> <span class="emphasized-data">L'Abbaye de l'Eau Claire</span> (Pour ses compétences défensives et utilitaires qui complètent le style de jeu combo)</p>
+                <table>
+                    <thead>
+                        <tr><th>Priorité</th><th>Statistique</th><th>Ratio par Niveau</th><th>Note</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Priority">1. Équilibré</td><td data-label="Stat"><strong>Force</strong></td><td data-label="Ratio par Niveau"><strong>+3 points</strong></td><td data-label="Note">Nécessaire pour que votre combo de burst soit une menace mortelle.</td></tr>
+                        <tr><td data-label="Priority">2. Équilibré</td><td data-label="Stat"><strong>Vitalité</strong></td><td data-label="Ratio per Level"><strong>+2 points</strong></td><td data-label="Note">Essentiel pour survivre aux combos adverses et avoir une chance de placer le vôtre.</td></tr>
+                    </tbody>
+                </table>
+                <p><strong>Statistiques Prioritaires (Équipement) :</strong></p>
+                <ol>
+                    <li><span class="emphasized-data">Pénétration</span> : Pour contrer l'armure des autres joueurs.</li>
+                    <li><span class="keyword">Ténacité</span> : La statistique défensive la plus importante en JcJ pour réduire la durée des CC.</li>
+                    <li>Dégâts Critiques : Pour maximiser l'efficacité de votre fenêtre de burst.</li>
+                </ol>
+            </section>
+            <section class="build-section-content">
+                <h3>II. Équipement Principal : Armes & Armures</h3>
+                <div class="set-bonus">
+                    <p><strong>Set d'Armure Recommandé :</strong> <span class="emphasized-data">La Panoplie de l'Ombre Implacable</span></p>
+                    <ul>
+                        <li><strong>Bonus (2 pièces) :</strong> Augmente la <span class="keyword">Ténacité</span> de 100. (Réduit la durée des CC subis).</li>
+                        <li><strong>Bonus (4 pièces) :</strong> Infliger des dégâts à une cible que vous contrôlez prolonge la durée du contrôle de 0.5s. Cet effet ne peut se produire qu'une fois toutes les 15 secondes. C'est le bonus qui garantit que votre combo est mortel.</li>
+                    </ul>
+                    <p class="acquisition-source"><strong>Source :</strong> Vendeur de la Faction JcJ en échange de Marques d'Honneur.</p>
+                </div>
+                <h4>Phase de Montée en Niveau (Niv 1-50)</h4>
+                <ul>
+                    <li><strong>Éventail :</strong> <span class="emphasized-data">Éventail de la Brise Trompeuse</span> (Les éventails de quête offrent souvent des contrôles légers, utiles pour apprendre le gameplay).</li>
+                    <li><strong>Lames Jumelles :</strong> <span class="emphasized-data">Lames Jumelles de l'Escarmoucheur</span> (Toute paire de lames jumelles avec un bonus de Force fera l'affaire).</li>
+                </ul>
+                <h4>Endgame (BiS - Meilleur Équipement)</h4>
+                <ul>
+                    <li><strong>Arme de Contrôle (Éventail) :</strong> <span class="emphasized-data">Éventail Panacée</span>
+                        <ul><li>Possède des compétences qui peuvent <span class="keyword">attirer, repousser et immobiliser</span> les ennemis.</li></ul>
+                        <p class="acquisition-source"><strong>Source :</strong> Butin rare sur le boss de raid "L'Impératrice de Jade".</p>
+                    </li>
+                    <li><strong>Arme de Burst (Lames Jumelles) :</strong> <span class="emphasized-data">Lames Jumelles Infernales</span>
+                        <ul><li>Leur combo de compétences est l'un des plus rapides et des plus dévastateurs du jeu, capable de tuer un adversaire en une seule <span class="keyword">rotation de contrôle</span>.</li></ul>
+                        <p class="acquisition-source"><strong>Source :</strong> Butin rare sur le boss mondial : La Manticore des Cendres.</p>
+                    </li>
+                </ul>
+            </section>
+            <section class="build-section-content">
+                <h3>III. Bijoux et Artefacts Recommandés</h3>
+                <p><strong>Priorité des Statistiques sur les Bijoux :</strong></p>
+                <ol>
+                    <li><span class="keyword">Ténacité</span> : Atteindre un cap élevé de Ténacité est la priorité n°1 pour survivre.</li>
+                    <li><span class="emphasized-data">Pénétration</span> : Pour que vos dégâts ne soient pas simplement absorbés par l'armure adverse.</li>
+                    <li>Force (Brute) : Pour augmenter les dégâts de votre burst.</li>
+                </ol>
+                <p><strong>Artefact "Best-in-Slot" :</strong> <span class="emphasized-data">Le Miroir de l'Illusion Brisée</span></p>
+                <ul>
+                    <li><strong>Effet Unique :</strong> Activez pour dissiper instantanément tous les effets de contrôle sur vous et devenir insensible aux contrôles pendant 3 secondes. Temps de recharge de 90 secondes.</li>
+                    <li><strong>Synergie :</strong> Cet artefact est votre "deuxième chance". Il agit comme un "trinket" classique de MMO PvP. Il vous permet de survivre au combo d'un adversaire pour pouvoir ensuite placer le vôtre.</li>
+                </ul>
+                <p class="acquisition-source"><strong>Source :</strong> Récompense pour avoir atteint un haut classement en arène JcJ.</p>
+            </section>
+             <section class="build-section-content">
+                <h3>IV. Consommables Optimisés</h3>
+                <ul class="consumables-list">
+                    <li><strong>Nourriture :</strong> <span class="emphasized-data">Dumplings du Combattant</span> (+150 Force pendant 30 minutes).</li>
+                    <li><strong>Potion de Combat :</strong> <span class="emphasized-data">Potion de Purification</span> (Dissipe instantanément tous les effets de contrôle et vous rend insensible pendant 1.5 seconde. Votre "joker" défensif).</li>
+                </ul>
+            </section>
+            <section class="build-section-content">
+                <h3>V. Compétences Internes : L'Esprit du Prédateur</h3>
+                <table>
+                    <thead>
+                        <tr><th>Type</th><th>Compétence Interne</th><th>Synergie et Fonction</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Type">Offensive Majeure</td><td data-label="Internal Skill"><span class="emphasized-data">Volonté du Prédateur</span></td><td data-label="Synergy and Function">Augmente tous les <span class="keyword">dégâts infligés de 20%</span> sur les cibles affectées par un <span class="keyword">Contrôle de Foule</span>. La clé du combo one-shot.</td></tr>
+                        <tr><td data-label="Type">Défensive Majeure</td><td data-label="Internal Skill"><span class="emphasized-data">Esquive Fantôme</span></td><td data-label="Synergy and Function">Dissipe tous les effets de contrôle et vous rend insensible pendant 2 secondes. S'active automatiquement la première fois que vous êtes contrôlé (90s de cooldown).</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="build-section-content">
+                <h3>VI. Arts Mystiques : La Clé du Duel</h3>
+                <table>
+                    <thead>
+                        <tr><th>Emplacement</th><th>Art Mystique</th><th>Utilité JcJ</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Slot"><strong>Contrôle Ultime</strong></td><td data-label="Mystical Art"><span class="emphasized-data">Sceau des Cinq Éléments</span></td><td data-label="PvP Utility">Une compétence à incantation rapide qui <span class="keyword">"scelle" un ennemi pendant 4 secondes</span>, l'empêchant d'utiliser toute compétence (y compris les potions et les esquives). L'outil parfait pour garantir que votre combo de burst ne sera pas interrompu.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="build-section-content">
+                <h3>VII. Rotation JcJ : Le Combo du Prédateur<button class="copy-btn">Copier</button></h3>
+                <table>
+                    <thead>
+                        <tr><th>Étape</th><th>Action</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td data-label="Step">1</td><td data-label="Action">Ouverture (Éventail) : Utiliser une compétence de <span class="keyword">contrôle à distance</span> (ex: Tornade) pour attirer l'adversaire et l'immobiliser.</td></tr>
+                        <tr><td data-label="Step">2</td><td data-label="Action">Engagement & Burst (Lames Jumelles) : <span class="swap-marker">[SWAP]</span> Se ruer sur la cible et exécuter le <span class="emphasized-data">combo complet</span> des Lames Jumelles pendant qu'elle est sans défense.</td></tr>
+                        <tr><td data-label="Step">3</td><td data-label="Action">Désengagement (Éventail) : <span class="swap-marker">[SWAP]</span> Utiliser une compétence de <span class="keyword">repoussement</span> ou une esquive pour créer de la distance et attendre le retour des temps de recharge.</td></tr>
+                        <tr><td data-label="Step">4</td><td data-label="Action">Répéter : Attendre la prochaine fenêtre d'opportunité. Ne jamais engager sans avoir un <span class="keyword">contrôle</span> de disponible. La patience est la clé.</td></tr>
+                    </tbody>
+                </table>
+            </section>
+             <section class="build-section-content">
+                <h3>VIII. Adaptations Stratégiques (Match-ups)</h3>
+                <ul class="strategy-list">
+                    <li><strong>Contre Bellstrike Splendor :</strong> Votre priorité est d'esquiver leurs vagues d'énergie chargées. Utilisez la mobilité de vos lames jumelles pour vous déplacer latéralement. Appâtez leur esquive puis lancez votre contrôle juste après.</li>
+                    <li><strong>Contre Bamboocut Wind :</strong> Ils sont fragiles mais rapides. Ne les affrontez pas de front. Utilisez le repoussement de votre Éventail pour interrompre leur combo, créez de la distance, puis punissez-les quand leur burst initial est terminé.</li>
+                     <li><strong>Contre un Tank :</strong> C'est un combat d'usure. N'utilisez votre burst que lorsque vous êtes certain que leurs compétences de bouclier sont en cooldown. Harcelez-les avec l'Éventail et attendez la bonne fenêtre d'opportunité.</li>
+                </ul>
+            </section>
+            <a href="#about" class="back-to-top">↑ Retour au Sommaire</a>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>Conçu avec des données vérifiées de la Méta Chinoise | Dernière MàJ : Novembre 2025 | Le Contenu est Roi.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- SCROLL REVEAL LOGIC ---
+            const revealElements = document.querySelectorAll('.scroll-reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            // On ne commence l'observation que lorsque la page de garde disparaît (ou si elle n'existe pas)
+            function enableReveal() {
+                revealElements.forEach(el => observer.observe(el));
+            }
+            
+            // --- LANDING PAGE LOGIC ---
+            const landing = document.getElementById('zenith-landing');
+            const enter = document.getElementById('enter-btn');
+            const skip = document.getElementById('skip-btn');
+
+            if (landing) {
+                // Fonction pour faire disparaître la page de garde avec un fondu
+                function closeLanding(duration) {
+                    if (landing.style.opacity === '0') return;
+
+                    // 1. Appliquer la transition pour le fondu et masquer
+                    landing.style.transition = `opacity ${duration / 1000}s ease-out, visibility ${duration / 1000}s ease-out`;
+                    landing.style.opacity = '0';
+                    landing.style.visibility = 'hidden';
+
+                    // 2. Supprimer l'élément après la transition pour le nettoyage
+                    setTimeout(() => {
+                        landing.remove();
+                        enableReveal(); // Démarre l'animation d'apparition du contenu principal
+                    }, duration);
+                }
+
+                if (enter) enter.addEventListener('click', () => closeLanding(900)); // Entrée lente
+                if (skip) skip.addEventListener('click', () => closeLanding(300));  // Entrée rapide
+                
+                // Permettre l'échappement pour fermer
+                document.addEventListener('keydown', (e) => { 
+                    if (e.key === 'Escape') closeLanding(400); 
+                });
+            } else {
+                // Si la page de garde est déjà retirée (ou absente), activer l'animation immédiatement
+                enableReveal(); 
+            }
+
+            // --- NAVIGATION FILTERING ---
+            const navLinks = document.querySelectorAll('.sticky-header .nav-links a');
+            const buildCards = document.querySelectorAll('.build-detail-section');
+            const handleFilter = (filter) => {
+                buildCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category.includes(filter)) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            };
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navLinks.forEach(a => a.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    const filter = e.currentTarget.dataset.filter;
+                    handleFilter(filter);
+                });
+            });
+
+            // --- COPY ROTATION LOGIC ---
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const table = e.target.closest('.build-section-content').querySelector('table');
+                    let rotationText = '';
+                    table.querySelectorAll('tbody tr').forEach(row => {
+                        const stepCell = row.cells[0];
+                        const actionCell = row.cells[1];
+                        const step = stepCell.textContent.trim();
+                        const actionClone = actionCell.cloneNode(true);
+                        const swapMarker = actionClone.querySelector('.swap-marker');
+                        if (swapMarker) swapMarker.textContent = '->';
+                        let actionText = actionClone.textContent.trim();
+                        rotationText += `${step}: ${actionText}\n`;
+                    });
+                    
+                    navigator.clipboard.writeText(rotationText.trim()).then(() => {
+                        const originalText = btn.textContent;
+                        btn.textContent = 'Copié !';
+                        btn.disabled = true;
+                        setTimeout(() => {
+                            btn.textContent = originalText;
+                            btn.disabled = false;
+                        }, 2000);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
